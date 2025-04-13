@@ -10,16 +10,16 @@ namespace honeypot::config
 
 namespace honeypot::utils::fake_data
 {
-	nlohmann::json generate_error(std::string_view message);
+	nlohmann::ordered_json generate_error(std::string_view message);
 
-	nlohmann::json generate_ok_status();
+	nlohmann::ordered_json generate_ok_status();
 
 	const config::TagModelInfo* find_model_info(
 		std::string_view model_name,
 		const std::vector<config::TagModelInfo>& models
 	);
 
-	nlohmann::json generate_model_list_json(
+	nlohmann::ordered_json generate_model_list_json(
 		const std::vector<config::TagModelInfo>& tag_models
 	);
 

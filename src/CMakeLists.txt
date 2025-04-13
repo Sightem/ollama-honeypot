@@ -3,10 +3,12 @@ add_executable(ollama_honeypot
         # api/blob_handlers.cpp
         # api/generate_handlers.cpp
         api/misc_handlers.cpp
-        # api/model_handlers.cpp
+        api/model_handlers.cpp
         utils/config.cpp
         utils/fake_data.cpp
         utils/logging.cpp
+
+        state/honeypot_state.cpp
 )
 
 target_compile_features(ollama_honeypot PRIVATE cxx_std_23)
