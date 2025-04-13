@@ -1,0 +1,34 @@
+{
+  "server": {
+    "listen_address": "0.0.0.0",
+    "listen_port": 11434
+  },
+  "logging": {
+    "log_level": "info",
+    "log_outputs": ["stdout", "file"],
+    "log_file_path": "honeypot_operational.log",
+    "log_pattern": "[%Y-%m-%d %H:%M:%S.%e] [%^%l%$] [%t] %v",
+    "request_log_path": "honeypot_requests.json"
+  },
+  "api_behavior": {
+    "ollama_version": "0.1.43",
+    "tag_models": [
+      {
+        "name": "llama3.1:8b",
+        "modified_at": "2025-04-12T18:57:30.2454557-07:00",
+        "size": 4920753328,
+        "digest": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
+        "details": {
+          "format": "gguf",
+          "family": "llama",
+          "families": ["llama"],
+          "parameter_size": "8.0B",
+          "quantization_level": "Q4_0"
+        }
+      }
+    ],
+    "show_file_map": {
+      "llama3.1:8b": "show_details/llama3.1_8b.json"
+    }
+  }
+}
