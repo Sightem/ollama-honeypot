@@ -6,12 +6,14 @@
 
 #include <crow.h>
 
+
 #include "utils/config.hpp"
 #include "utils/logging.hpp"
 #include "state/honeypot_state.hpp"
 #include "api/version.hpp"
 #include "api/delete.hpp"
 #include "api/tags.hpp"
+#include "api/show.hpp"
 
 namespace
 {
@@ -119,6 +121,13 @@ int main(int argc, char* argv[])
             ([state_ptr] (const crow::request& req) {
                 return honeypot::api::handle_delete(state_ptr, req);
             });
+
+    // POST /api/show
+    CROW_ROUTE(app, "/api/show")
+    .methods(crow::HTTPMethod::Post)
+    ([config_ptr, state_ptr](const crow::request& req) {
+         return honeypot::api::handle_show(config_ptr, state_ptr, req);
+     });
 
 
     logger->info("API routes registered.");

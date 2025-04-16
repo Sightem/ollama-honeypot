@@ -1,6 +1,6 @@
 #include <vector>
 #include <string>
-#include <string_view> // Include string_view
+#include <string_view>
 #include <chrono>
 #include <shared_mutex>
 #include <mutex>
@@ -62,7 +62,7 @@ namespace honeypot::state
         }
     }
 
-    std::optional<nlohmann::json> HoneypotState::get_cached_detail(const std::string_view file_path)
+    std::optional<nlohmann::ordered_json> HoneypotState::get_cached_detail(const std::string_view file_path)
     {
         std::scoped_lock lock(cache_mutex_);
 
@@ -77,7 +77,7 @@ namespace honeypot::state
         }
     }
 
-    void HoneypotState::cache_detail(const std::string_view file_path, nlohmann::json detail)
+    void HoneypotState::cache_detail(const std::string_view file_path, nlohmann::ordered_json detail)
     {
         std::scoped_lock lock(cache_mutex_);
         show_cache_[file_path.data()] = std::move(detail);
@@ -149,15 +149,13 @@ namespace honeypot::state
 
         if (loaded_it != loaded_models_.end())
         {
-            // Found: Update expiry
             loaded_it->expires_at = expires_at;
             const auto logger = utils::get_operational_logger();
             logger->debug("Updated keep_alive for loaded model '{}'", model_name);
         }
         else
         {
-            // Not found: Add to loaded_models_
-            const config::TagModelInfo& base_info = *available_it; // Get ref to base info
+            const config::TagModelInfo& base_info = *available_it;
             LoadedModelInfo new_loaded_info;
             new_loaded_info.base_info = base_info;
             new_loaded_info.expires_at = expires_at;

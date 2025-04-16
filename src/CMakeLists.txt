@@ -5,6 +5,7 @@ add_executable(ollama_honeypot
         api/version.cpp
         api/tags.cpp
         api/delete.cpp
+        api/show.cpp
         utils/config.cpp
         utils/fake_data.cpp
         utils/logging.cpp
@@ -33,12 +34,21 @@ if(WIN32)
     target_link_libraries(ollama_honeypot PRIVATE ws2_32 mswsock)
 endif()
 
-add_custom_target(copy_runtime_config ALL
+set(CONFIG_COPY_STAMP_FILE "${CMAKE_CURRENT_BINARY_DIR}/config_copy.stamp")
+
+add_custom_command(
+        OUTPUT ${CONFIG_COPY_STAMP_FILE}
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/config"
         "${CMAKE_CURRENT_BINARY_DIR}/config"
-        COMMENT "Copying config directory to build output sub-directory"
+        COMMAND ${CMAKE_COMMAND} -E touch ${CONFIG_COPY_STAMP_FILE}
+        MAIN_DEPENDENCY "${CMAKE_SOURCE_DIR}/config"
+        COMMENT "Copying config directory to build output sub-directory (if changed/missing)"
         VERBATIM
 )
 
-add_dependencies(ollama_honeypot copy_runtime_config)
+add_custom_target(ensure_runtime_config
+        DEPENDS ${CONFIG_COPY_STAMP_FILE}
+)
+
+add_dependencies(ollama_honeypot ensure_runtime_config)
