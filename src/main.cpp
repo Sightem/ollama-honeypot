@@ -1,16 +1,17 @@
-#include <crow.h>
 #include <iostream>
 #include <string>
 #include <memory>
 #include <vector>
 #include <string_view>
 
+#include <crow.h>
+
 #include "utils/config.hpp"
 #include "utils/logging.hpp"
 #include "state/honeypot_state.hpp"
-#include "api/model_handlers.hpp"
-#include "api/misc_handlers.hpp"
-
+#include "api/version.hpp"
+#include "api/delete.hpp"
+#include "api/tags.hpp"
 
 namespace
 {
@@ -95,30 +96,28 @@ int main(int argc, char* argv[])
     logger->info("Request logging middleware registered globally.");
     app.server_name("");
 
-    auto cfg_capture = config_ptr;
-    auto state_capture = state_ptr;
 
     // GET /api/version
     CROW_ROUTE(app, "/api/version")
             .methods(crow::HTTPMethod::Get)
-            ([cfg_capture] {
+            ([config_ptr] {
                 // Only capture config needed
-                return honeypot::api::handle_version(*cfg_capture);
+                return honeypot::api::handle_version(*config_ptr);
             });
 
     // GET /api/tags
     CROW_ROUTE(app, "/api/tags")
             .methods(crow::HTTPMethod::Get)
-            ([state_capture] {
+            ([state_ptr] {
                 // Capture state
-                return honeypot::api::handle_tags(state_capture);
+                return honeypot::api::handle_tags(state_ptr);
             });
 
     // DELETE /api/delete
     CROW_ROUTE(app, "/api/delete")
             .methods(crow::HTTPMethod::Delete)
-            ([state_capture] (const crow::request& req) {
-                return honeypot::api::handle_delete(state_capture, req);
+            ([state_ptr] (const crow::request& req) {
+                return honeypot::api::handle_delete(state_ptr, req);
             });
 
 

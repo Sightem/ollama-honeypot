@@ -14,6 +14,23 @@
     "ollama_version": "0.1.43",
     "tag_models": [
       {
+        "name": "phi4:latest",
+        "model": "phi4:latest",
+        "modified_at": "2025-04-13T11:38:51.9004452-07:00",
+        "size": 9053116391,
+        "digest": "ac896e5b8b34a1f4efa7b14d7520725140d5512484457fab45d2a4ea14c69dba",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "phi3",
+          "families": [
+            "phi3"
+          ],
+          "parameter_size": "14.7B",
+          "quantization_level": "Q4_K_M"
+        }
+      },
+      {
         "name": "llama3.1:8b",
         "modified_at": "2025-04-12T18:57:30.2454557-07:00",
         "size": 4920753328,
@@ -23,11 +40,12 @@
           "family": "llama",
           "families": ["llama"],
           "parameter_size": "8.0B",
-          "quantization_level": "Q4_0"
+          "quantization_level": "Q4_K_M"
         }
       }
     ],
     "show_file_map": {
+      "phi4:latest": "show_details/phi4_latest.json",
       "llama3.1:8b": "show_details/llama3.1_8b.json"
     }
   }

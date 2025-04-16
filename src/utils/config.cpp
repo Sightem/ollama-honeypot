@@ -5,7 +5,6 @@
 #include <vector>
 #include <optional>
 
-#include <fmt/core.h>
 #include <fmt/ranges.h>
 #include <nlohmann/json.hpp>
 #include <tsl/robin_map.h>
@@ -39,7 +38,7 @@ namespace honeypot::config
 
         if (j.contains("families") && !j.at("families").is_null())
         {
-            p.families = j.at("families").get<std::vector<std::string> >();
+            p.families = j.at("families").get<std::vector<std::string>>();
         }
         else
         {

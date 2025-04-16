@@ -1,23 +1,18 @@
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/sinks/basic_file_sink.h>
-
 #include <vector>
 #include <memory>
 #include <stdexcept>
 #include <chrono>
 #include <fmt/core.h>
 #include <fmt/chrono.h>
+
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/sinks/basic_file_sink.h>
 #include <nlohmann/json.hpp>
 #include <crow.h>
 
 #include "utils/logging.hpp"
 #include "utils/config.hpp"
-
-namespace honeypot::config
-{
-    struct HoneypotConfig;
-}
 
 namespace honeypot::utils
 {
@@ -57,7 +52,7 @@ namespace honeypot::utils
             }
             else
             {
-                for (const auto& output_type : log_outputs)
+                for (auto&& output_type : log_outputs)
                 {
                     if (output_type == "stdout")
                     {

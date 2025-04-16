@@ -142,7 +142,6 @@ namespace honeypot::state
 
         const auto expires_at = std::chrono::steady_clock::now() + keep_alive;
 
-        // --- Find if already in loaded_models_ ---
         const auto loaded_it = std::ranges::find_if(loaded_models_,
                                               [&] (const LoadedModelInfo& lm) {
                                                   return lm.base_info.name == model_name;
